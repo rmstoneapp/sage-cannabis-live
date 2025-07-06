@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Strain {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Basic Information
+  strainName  String
+  brandName   String
+  strainType  StrainType
+  dispensary  String?
+  
+  // Cannabinoid Profile
+  thcPercentage Float?
+  cbdPercentage Float?
+  cbgPercentage Float?
+  cbnPercentage Float?
+  
+  // Terpene Profile (JSON for flexibility)
+  terpeneProfile Json?
+  
+  // Effects and Medical Uses
+  effects      String[] // Array of effect names
+  medicalUses  String[] // Array of medical conditions
+  
+  // Description and Notes
+  description  String?
+  flavorProfile String?
+  aroma        String?
+  
+
+  
+  // Images and Lab Results
+  containerImage    String? // UploadThing URL
+  terpeneImage      String? // Lab result image
+  cannabinoidImage  String? // Lab result image
+  budImage          String? // Optional bud photo
+  
+  // Submission Status
+  status       SubmissionStatus @default(PENDING)
+  reviewNotes  String?
+  reviewedBy   String?
+  reviewedAt   DateTime?
+  
+  // User who submitted (optional - for future user system)
+  submittedBy  String?
+  submitterEmail String?
+  
+  @@map("strains")
+}
+
+model UserRecommendation {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  
+  // User Information
+  ageRange     String?
+  height       Float?
+  weight       Float?
+  experience   Int? // 1-5 scale
+  
+  // Medical Conditions
+  conditions   String[] // Array of condition names
+  
+  // Desired Effects
+  desiredEffects String[]
+  
+  // Preferences
+  consumptionMethod String?
+  preferredTiming   String?
+  tolerance         String?
+  
+  // Recommendations (JSON array of strain IDs with scores)
+  recommendations Json?
+  
+  // Session tracking
+  sessionId    String?
+  ipAddress    String?
+  
+  @@map("user_recommendations")
+}
+
+model Analytics {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  
+  // Event tracking
+  eventType String  // 'strain_view', 'recommendation_request', 'strain_submit'
+  strainId  String?
+  
+  // User context
+  sessionId String?
+  userAgent String?
+  ipAddress String?
+  
+  // Additional data
+  metadata  Json?
+  
+  @@map("analytics")
+}
+
+enum StrainType {
+  INDICA
+  SATIVA
+  HYBRID
+}
+
+
+
+enum SubmissionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  NEEDS_REVIEW
+}

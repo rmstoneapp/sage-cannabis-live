@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "HighQ - Personalized Cannabis Recommendations",
+  title: "Sage - Personalized Cannabis Recommendations",
   description: "Find your perfect cannabis strain match based on your unique needs and scientific research",
 };
 
