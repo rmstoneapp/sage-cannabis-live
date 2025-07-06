@@ -1,45 +1,19 @@
-import { Boundary } from '#/ui/boundary';
-import { Mdx } from '#/ui/codehike';
-import { CounterProvider } from 'app/context/counter-context';
-import React from 'react';
-import ContextClickCounter from './context-click-counter';
-import Readme from './readme.mdx';
-const title = 'Client Context';
+// If you need this file, here's a corrected version
+// Otherwise, you can delete app/context/layout.tsx entirely
 
-export const metadata = {
-  title,
-  openGraph: { title, images: [`/api/og?title=${title}`] },
-};
+import { ReactNode } from 'react';
 
-export default async function Layout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+interface ContextLayoutProps {
+  children: ReactNode;
+}
+
+export default function ContextLayout({ children }: ContextLayoutProps) {
   return (
-    <>
-      <Boundary label="Demo" kind="solid" animateRerendering={false}>
-        <Mdx source={Readme} collapsed={true} />
-      </Boundary>
-
-      <Boundary
-        label="layout.tsx (Server Environment)"
-        kind="solid"
-        animateRerendering={false}
-      >
-        <Boundary
-          label="Context Provider (Client Environment)"
-          color="blue"
-          animateRerendering={false}
-        >
-          <CounterProvider>
-            <div className="flex flex-col gap-9">
-              <ContextClickCounter />
-              {children}
-            </div>
-          </CounterProvider>
-        </Boundary>
-      </Boundary>
-    </>
+    <div className="context-wrapper">
+      {children}
+    </div>
   );
 }
+
+// Remove the import for './readme.mdx' since it doesn't exist
+// If you need to include documentation, create the file first
